@@ -7,20 +7,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Service
 public class CalculatorService {
 
-    public double minus(double a, double b) {
-        return Calculator.minus(a, b);
+    public String minus(double a, double b) {
+        double result = Calculator.minus(a, b);
+        return a + " - " + b + " = " + result;
     }
 
-    public double plus(double a, double b) {
-        return Calculator.plus(a, b);
+    public String plus(double a, double b) {
+        double result = Calculator.plus(a, b);
+        return a + " + " + b + " = " + result;
     }
 
-    public double multiply(double a, double b) {
-        return Calculator.multiply(a, b);
+    public String multiply(double a, double b) {
+        double result = Calculator.multiply(a, b);
+        return a + " * " + b + " = " + result;
     }
 
-    public double divide(double a, double b) {
-        return Calculator.divide(a, b);
+    public String divide(double a, double b) {
+        double result = Calculator.divide(a, b);
+        return a + " / " + b + " = " + result;
     }
 
 
