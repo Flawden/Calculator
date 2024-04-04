@@ -30,54 +30,56 @@ public class EmployeeBookService {
         return employees.get(id);
     }
 
-    public void employeesPrinter(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
+    public String employeesPrinter(int department) throws IncorrectDepartmentNumber {
+        Tester.isValidDepartment(department);
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        System.out.println("В отделе номер " + department + " были найдены следующие сотрудники:");
-        Arrays.stream(employeesInDepartment).forEach(employee -> System.out.println("Сотрудник:\n" +
-                "id: " + employee.getId() + "\n" +
-                "Имя: " + employee.getFirstname() + "\n" +
-                "Фамилия: " + employee.getLastname() + "\n" +
-                "Отчество: " + employee.getPatronymic() + "\n" +
-                "Зароботная плата: " + employee.getSalary() + " рублей"));
+        StringBuilder employeesInDepartmentAnswer = new StringBuilder();
+        employeesInDepartmentAnswer.append("В отделе номер ").append(department).append(" были найдены следующие сотрудники:");
+        Arrays.stream(employeesInDepartment).forEach(employee -> employeesInDepartmentAnswer
+                .append("Сотрудник:\n" + "id: ")
+                .append(employee.getId()).append("\n")
+                .append("Имя: ").append(employee.getFirstname())
+                .append("\n").append("Фамилия: ")
+                .append(employee.getLastname())
+                .append("\n")
+                .append("Отчество: ")
+                .append(employee.getPatronymic())
+                .append("\n").append("Зароботная плата: ")
+                .append(employee.getSalary())
+                .append(" рублей"));
+        return employeesInDepartmentAnswer.toString();
     }
 
-    public void salarySum() {
+    public String salarySum() {
         double salarySum = 0;
         for (Employee employee : employees) {
             salarySum += employee.getSalary();
         }
-        System.out.println("Итоговые затраты на зарплату: " + salarySum + " рублей.");
+        return "Итоговые затраты на зарплату: " + salarySum + " рублей.";
     }
 
-    public void salarySum(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
+    public String salarySum(int department) throws IncorrectDepartmentNumber {
+        Tester.isValidDepartment(department);
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
         double salarySum = 0;
         for (Employee employee : employeesInDepartment) {
             salarySum += employee.getSalary();
         }
-        System.out.println("Итоговые затраты на зарплату в отделе номер " + department + ": " + salarySum + " рублей.");
+        return "Итоговые затраты на зарплату в отделе номер " + department + ": " + salarySum + " рублей.";
     }
 
-    public void minSalary() {
+    public String minSalary() {
         double minSalary = Double.MAX_VALUE;
         for (Employee employee : employees) {
             if (minSalary > employee.getSalary()) {
                 minSalary = employee.getSalary();
             }
         }
-        System.out.println("Минимальная зарплата: " + minSalary + " рублей.");
+        return "Минимальная зарплата: " + minSalary + " рублей.";
     }
 
-    public void minSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
+    public String minSalary(int department) throws IncorrectDepartmentNumber {
+        Tester.isValidDepartment(department);
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
         double minSalary = Double.MAX_VALUE;
         for (Employee employee : employeesInDepartment) {
@@ -85,23 +87,21 @@ public class EmployeeBookService {
                 minSalary = employee.getSalary();
             }
         }
-        System.out.println("Минимальная зарплата в отделе номер " + department + ": " + minSalary + " рублей.");
+        return "Минимальная зарплата в отделе номер " + department + ": " + minSalary + " рублей.";
     }
 
-    public void maxSalary() {
+    public String maxSalary() {
         double maxSalary = 0;
         for (Employee employee : employees) {
             if (maxSalary < employee.getSalary()) {
                 maxSalary = employee.getSalary();
             }
         }
-        System.out.println("Максимальная зарплата: " + maxSalary + " рублей.");
+        return "Максимальная зарплата: " + maxSalary + " рублей.";
     }
 
-    public void maxSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
+    public String maxSalary(int department) throws IncorrectDepartmentNumber {
+        Tester.isValidDepartment(department);
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
         double maxSalary = 0;
         for (Employee employee : employeesInDepartment) {
@@ -109,27 +109,25 @@ public class EmployeeBookService {
                 maxSalary = employee.getSalary();
             }
         }
-        System.out.println("Максимальная зарплата в отделе номер " + department + ": " + maxSalary + " рублей.");
+        return "Максимальная зарплата в отделе номер " + department + ": " + maxSalary + " рублей.";
     }
 
-    public void averageSalary() {
+    public String averageSalary() {
         double salarySum = 0;
         for (Employee employee : employees) {
             salarySum += employee.getSalary();
         }
-        System.out.println("Средняя зарплата сотрудников: " + (salarySum / employees.size()) + " рублей.");
+        return "Средняя зарплата сотрудников: " + (salarySum / employees.size()) + " рублей.";
     }
 
-    public void averageSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
+    public String averageSalary(int department) throws IncorrectDepartmentNumber {
+        Tester.isValidDepartment(department);
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
         double salarySum = 0;
         for (Employee employee : employeesInDepartment) {
             salarySum += employee.getSalary();
         }
-        System.out.println("Средняя зарплата сотрудников в отделе номер " + department + ": " + (salarySum / employeesInDepartment.length) + " рублей.");
+        return "Средняя зарплата сотрудников в отделе номер " + department + ": " + (salarySum / employeesInDepartment.length) + " рублей.";
     }
 
 //    public void fullnamePrinter() {

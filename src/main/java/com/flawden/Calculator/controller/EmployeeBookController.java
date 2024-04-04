@@ -22,6 +22,11 @@ public class EmployeeBookController {
         this.employeeBookService = employeeBookService;
     }
 
+    @GetMapping
+    public List<Employee> addEmployee() {
+        return employeeBookService.getEmployees();
+    }
+
     @PostMapping
     public ResponseEntity addEmployee(@RequestBody Employee employee) {
         employeeBookService.addEmployee(employee);
@@ -33,147 +38,79 @@ public class EmployeeBookController {
         employeeBookService.deleteEmployee(id);
     }
 
-    public ResponseEntity getEmployeeById(int id) {
-        employeeBookService.getEmployeeById(id);
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable int id) {
+        return employeeBookService.getEmployeeById(id);
+    }
+
+    @GetMapping("/sum")
+    public String salarySum() {
+        return employeeBookService.salarySum();
+    }
+
+    @GetMapping("/sum/{department}")
+    public String salarySum(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.salarySum(department);
+    }
+
+    @GetMapping("/print/{department}")
+    public String employeesPrinter(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.employeesPrinter(department);
+    }
+
+    @GetMapping("/min-salary")
+    public String minSalary() {
+        return employeeBookService.minSalary();
+    }
+
+    @GetMapping("/min-salary/{department}")
+    public String minSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.minSalary(department);
+    }
+
+    @GetMapping("/max-salary")
+    public String maxSalary() {
+        return employeeBookService.maxSalary();
+    }
+
+    @GetMapping("max-salary/{department}")
+    public String maxSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.maxSalary(department);
+    }
+
+    @GetMapping("/average-salary")
+    public String averageSalary() {
+        return employeeBookService.averageSalary();
+    }
+
+    @GetMapping("/average-salary/{department}")
+    public String averageSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.averageSalary(department);
+    }
+
+//    public void fullnamePrinter() {
+//        Arrays.stream(employees).forEach(employee -> System.out.println(employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname()));
+//    }
+
+    @PostMapping("/increase-in-percent/{percent}")
+    public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent) {
+        employeeBookService.salaryIncreaseInPercent(percent);
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity salarySum() {
-        employeeBookService.salarySum();
-        ResponseEntity.ok().build();
+    @PostMapping("/increase-in-percent/{percent}/{department}")
+    public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent, @PathVariable int department) throws IncorrectDepartmentNumber {
+        employeeBookService.salaryIncreaseInPercent(percent, department);
+        return ResponseEntity.ok().build();
     }
 
-    public void salarySum(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
-        Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        double salarySum = 0;
-        for (Employee employee : employeesInDepartment) {
-            salarySum += employee.getSalary();
-        }
-        System.out.println("Итоговые затраты на зарплату в отделе номер " + department + ": " + salarySum + " рублей.");
+    @GetMapping("/by-department/{department}")
+    public Employee[] findEmployeesByDepartment(@PathVariable int department) throws IncorrectDepartmentNumber {
+        return employeeBookService.findEmployeesByDepartment(department);
     }
 
-    public void minSalary() {
-        double minSalary = Double.MAX_VALUE;
-        for (Employee employee : employees) {
-            if (minSalary > employee.getSalary()) {
-                minSalary = employee.getSalary();
-            }
-        }
-        System.out.println("Минимальная зарплата: " + minSalary + " рублей.");
-    }
-
-    public void minSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
-        Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        double minSalary = Double.MAX_VALUE;
-        for (Employee employee : employeesInDepartment) {
-            if (minSalary > employee.getSalary()) {
-                minSalary = employee.getSalary();
-            }
-        }
-        System.out.println("Минимальная зарплата в отделе номер " + department + ": " + minSalary + " рублей.");
-    }
-
-    public void maxSalary() {
-        double maxSalary = 0;
-        for (Employee employee : employees) {
-            if (maxSalary < employee.getSalary()) {
-                maxSalary = employee.getSalary();
-            }
-        }
-        System.out.println("Максимальная зарплата: " + maxSalary + " рублей.");
-    }
-
-    public void maxSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
-        Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        double maxSalary = 0;
-        for (Employee employee : employeesInDepartment) {
-            if (maxSalary < employee.getSalary()) {
-                maxSalary = employee.getSalary();
-            }
-        }
-        System.out.println("Максимальная зарплата в отделе номер " + department + ": " + maxSalary + " рублей.");
-    }
-
-    public void averageSalary() {
-        double salarySum = 0;
-        for (Employee employee : employees) {
-            salarySum += employee.getSalary();
-        }
-        System.out.println("Средняя зарплата сотрудников: " + (salarySum / employees.length) + " рублей.");
-    }
-
-    public void averageSalary(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
-        Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        double salarySum = 0;
-        for (Employee employee : employeesInDepartment) {
-            salarySum += employee.getSalary();
-        }
-        System.out.println("Средняя зарплата сотрудников в отделе номер " + department + ": " + (salarySum / employeesInDepartment.length) + " рублей.");
-    }
-
-    public void fullnamePrinter() {
-        Arrays.stream(employees).forEach(employee -> System.out.println(employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname()));
-    }
-
-    public void salaryIncreaseInPercent(int percent) {
-        if (percent == 0) {
-            System.out.println("Зарплата сотрудников не была изменена");
-            return;
-        }
-        if (percent < 0) {
-            System.out.println("Отдел охраны труда запрещает уменьшать сотрудникам размер зароботной платы, во избежание снижения уровня эффективности сотрудников");
-            return;
-        }
-        for (Employee employee : employees) {
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " до индексации.");
-            employee.setSalary(employee.getSalary() / 100 * (100 + percent));
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " после индексации.");
-        }
-    }
-
-    public void salaryIncreaseInPercent(int percent, int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return;
-        }
-        if (percent == 0) {
-            System.out.println("Зарплата сотрудников не была изменена");
-            return;
-        }
-        if (percent < 0) {
-            System.out.println("Отдел охраны труда запрещает уменьшать сотрудникам размер зароботной платы, во избежание снижения уровня эффективности сотрудников");
-            return;
-        }
-        Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        System.out.println("Информация по индексации отдела номер " + department + ":");
-        for (Employee employee : employeesInDepartment) {
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " до индексации.");
-            employee.setSalary(employee.getSalary() / 100 * (100 + percent));
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " после индексации.");
-        }
-    }
-
-    public Employee[] findEmployeesByDepartment(int department) throws IncorrectDepartmentNumber {
-        if (!Tester.isValidDepartment(department)) {
-            return new Employee[0];
-        }
-        List<Employee> employeesByDepartment = new ArrayList<>();
-        for (Employee employee : employees) {
-            if (employee.getDepartment() == department) {
-                employeesByDepartment.add(employee);
-            }
-        }
-        return employeesByDepartment.toArray(new Employee[0]);
+    @ExceptionHandler(IncorrectDepartmentNumber.class)
+    private String handler(ArithmeticException e) {
+        return e.getMessage();
     }
 }
