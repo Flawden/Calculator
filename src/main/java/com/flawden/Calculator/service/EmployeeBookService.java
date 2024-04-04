@@ -130,10 +130,6 @@ public class EmployeeBookService {
         return "Средняя зарплата сотрудников в отделе номер " + department + ": " + (salarySum / employeesInDepartment.length) + " рублей.";
     }
 
-//    public void fullnamePrinter() {
-//        Arrays.stream(employees.toArray()). //forEach(employee -> System.out.println(employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname()));
-//    }
-
     public void salaryIncreaseInPercent(int percent) {
         if (percent == 0) {
             System.out.println("Зарплата сотрудников не была изменена");

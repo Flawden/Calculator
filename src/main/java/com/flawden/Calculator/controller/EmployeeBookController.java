@@ -88,10 +88,6 @@ public class EmployeeBookController {
         return employeeBookService.averageSalary(department);
     }
 
-//    public void fullnamePrinter() {
-//        Arrays.stream(employees).forEach(employee -> System.out.println(employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname()));
-//    }
-
     @PostMapping("/increase-in-percent/{percent}")
     public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent) {
         employeeBookService.salaryIncreaseInPercent(percent);
