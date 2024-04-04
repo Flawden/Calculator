@@ -1,5 +1,6 @@
 package com.flawden.Calculator.service;
 
+import com.flawden.Calculator.exceptions.EmployeeNotFound;
 import com.flawden.Calculator.exceptions.IncorrectDepartmentNumber;
 import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.util.Tester;
@@ -26,7 +27,10 @@ public class EmployeeBookService {
         employees.remove(id);
     }
 
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) throws EmployeeNotFound {
+        if(employees.size() < id) {
+            throw new EmployeeNotFound("Ошибка! Сотрудник с указанным id не существует.");
+        }
         return employees.get(id);
     }
 

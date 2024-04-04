@@ -1,5 +1,7 @@
 package com.flawden.Calculator.controller;
 
+import com.flawden.Calculator.exceptions.ArrayIsFull;
+import com.flawden.Calculator.exceptions.EmployeeNotFound;
 import com.flawden.Calculator.exceptions.IncorrectDepartmentNumber;
 import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.service.EmployeeBookService;
@@ -39,7 +41,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable int id) {
+    public Employee getEmployeeById(@PathVariable int id) throws EmployeeNotFound {
         return employeeBookService.getEmployeeById(id);
     }
 
@@ -106,7 +108,17 @@ public class EmployeeBookController {
     }
 
     @ExceptionHandler(IncorrectDepartmentNumber.class)
-    private String handler(ArithmeticException e) {
+    private String handler(IncorrectDepartmentNumber e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(EmployeeNotFound.class)
+    private String anotherHandler(EmployeeNotFound e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(ArrayIsFull.class)
+    private String oneMoreHandler(ArrayIsFull e) {
         return e.getMessage();
     }
 }
