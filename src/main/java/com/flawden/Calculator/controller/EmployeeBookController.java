@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@RestController("/api/v1/employee")
+@RestController
+@RequestMapping("/api/v1/employee")
 public class EmployeeBookController {
 
     private EmployeeBookService employeeBookService;
