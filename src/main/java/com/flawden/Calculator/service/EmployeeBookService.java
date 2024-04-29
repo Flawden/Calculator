@@ -1,7 +1,7 @@
 package com.flawden.Calculator.service;
 
-import com.flawden.Calculator.exceptions.EmployeeNotFound;
-import com.flawden.Calculator.exceptions.IncorrectDepartmentNumber;
+import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
+import com.flawden.Calculator.exceptions.IncorrectDepartmentNumberException;
 import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.util.Tester;
 import org.springframework.stereotype.Service;
@@ -27,14 +27,14 @@ public class EmployeeBookService {
         employees.remove(id);
     }
 
-    public Employee getEmployeeById(int id) throws EmployeeNotFound {
+    public Employee getEmployeeById(int id) throws EmployeeNotFoundException {
         if(employees.size() < id) {
-            throw new EmployeeNotFound("Ошибка! Сотрудник с указанным id не существует.");
+            throw new EmployeeNotFoundException("Ошибка! Сотрудник с указанным id не существует.");
         }
         return employees.get(id);
     }
 
-    public String employeesPrinter(int department) throws IncorrectDepartmentNumber {
+    public String employeesPrinter(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
         StringBuilder employeesInDepartmentAnswer = new StringBuilder();
         employeesInDepartmentAnswer
@@ -59,7 +59,7 @@ public class EmployeeBookService {
         return "Итоговые затраты на зарплату: " + employees.stream().mapToInt(employee -> (int) employee.getSalary()).sum() + " рублей.";
     }
 
-    public String salarySum(int department) throws IncorrectDepartmentNumber {
+    public String salarySum(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
         return "Итоговые затраты на зарплату в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).sum() + " рублей.";
     }
@@ -68,7 +68,7 @@ public class EmployeeBookService {
         return "Минимальная зарплата: " + employees.stream().mapToInt(employee -> (int) employee.getSalary()).min().getAsInt() + " рублей.";
     }
 
-    public String minSalary(int department) throws IncorrectDepartmentNumber {
+    public String minSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
         return "Минимальная зарплата в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).min().getAsInt() + " рублей.";
     }
@@ -77,7 +77,7 @@ public class EmployeeBookService {
         return "Максимальная зарплата: " + employees.stream().mapToInt(employee -> (int) employee.getSalary()).max().getAsInt() + " рублей.";
     }
 
-    public String maxSalary(int department) throws IncorrectDepartmentNumber {
+    public String maxSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
         return "Максимальная зарплата в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).max().getAsInt() + " рублей.";
     }
@@ -86,7 +86,7 @@ public class EmployeeBookService {
         return "Средняя зарплата сотрудников: " + employees.stream().mapToInt(employee -> (int) employee.getSalary()).average().getAsDouble() + " рублей.";
     }
 
-    public String averageSalary(int department) throws IncorrectDepartmentNumber {
+    public String averageSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
         return "Средняя зарплата сотрудников в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).average().getAsDouble() + " рублей.";
     }
@@ -107,7 +107,7 @@ public class EmployeeBookService {
         }
     }
 
-    public void salaryIncreaseInPercent(int percent, int department) throws IncorrectDepartmentNumber {
+    public void salaryIncreaseInPercent(int percent, int department) throws IncorrectDepartmentNumberException {
         if (!Tester.isValidDepartment(department)) {
             return;
         }
@@ -128,7 +128,7 @@ public class EmployeeBookService {
         }
     }
 
-    public Employee[] findEmployeesByDepartment(int department) throws IncorrectDepartmentNumber {
+    public Employee[] findEmployeesByDepartment(int department) throws IncorrectDepartmentNumberException {
         if (!Tester.isValidDepartment(department)) {
             return new Employee[0];
         }
