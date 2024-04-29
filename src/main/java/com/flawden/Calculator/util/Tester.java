@@ -26,13 +26,19 @@ public class Tester {
         if((StringUtils.isEmpty(employee.getFirstname())) ||
                 (StringUtils.isEmpty(employee.getLastname())) ||
                 (StringUtils.isEmpty(employee.getPatronymic()))) {
-            throw new IncorrectEmployeeException("Ошибка! Поля: имя, фамилия и(или) отчество не может быть пустым");
+            throw new IncorrectEmployeeException("Ошибка! Поле: имя, фамилия и(или) отчество не может быть пустым");
         }
         String regex = "^[A-Za-zА-Яа-я]+";
         if(!((Pattern.matches(regex, employee.getFirstname())) ||
                 (Pattern.matches(regex, employee.getLastname())) ||
                 (Pattern.matches(regex, employee.getPatronymic())))) {
-            throw new IncorrectEmployeeException("Ошибка! Поля: имя, фамилия и(или) отчество не может содержать других символов, кроме кирилицы или латиницы. Спецсимволы и числа недопустимы. Даже если вы Петр 1");
+            throw new IncorrectEmployeeException("Ошибка! Поле: имя, фамилия и(или) отчество не может содержать других символов, кроме кирилицы или латиницы. Спецсимволы и числа недопустимы. Даже если вы Петр 1");
+        }
+        String isStartWithUpperCase = "[A-ZА-Я][A-Za-zА-Яа-я]+";
+        if(!((Pattern.matches(isStartWithUpperCase, employee.getFirstname())) ||
+                (Pattern.matches(isStartWithUpperCase, employee.getLastname())) ||
+                (Pattern.matches(isStartWithUpperCase, employee.getPatronymic())))) {
+            throw new IncorrectEmployeeException("Ошибка! Поле: имя, фамилия и(или) отчество должно начинаться с большой буквы!");
         }
         return true;
     }
