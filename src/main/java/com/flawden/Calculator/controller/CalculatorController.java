@@ -20,30 +20,30 @@ public class CalculatorController {
     }
 
     @GetMapping("/minus")
-    public String minus(@RequestParam double a, @RequestParam double b) {
-        return a + " - " + b + " = " + calculatorService.minus(a, b);
+    public String minus(@RequestParam double num1, @RequestParam double num2) {
+        return num1 + " - " + num2 + " = " + calculatorService.minus(num1, num2);
     }
 
     @GetMapping("/plus")
-    public String plus(@RequestParam double a, @RequestParam double b) {
-        return a + " + " + b + " = " + calculatorService.plus(a, b);
+    public String plus(@RequestParam double num1, @RequestParam double num2) {
+        return num1 + " + " + num2 + " = " + calculatorService.plus(num1, num2);
     }
 
     @GetMapping("/multiply")
-    public String multiply(@RequestParam double a, @RequestParam double b) {
-        return a + " * " + b + " = " + calculatorService.multiply(a, b);
+    public String multiply(@RequestParam double num1, @RequestParam double num2) {
+        return num1 + " * " + num2 + " = " + calculatorService.multiply(num1, num2);
     }
 
     @GetMapping("/divide")
-    public String divide(@RequestParam double a, @RequestParam double b) {
-        if (b == 0) {
-            throw new ArithmeticException("Error! You can't divide by zero");
+    public String divide(@RequestParam double num1, @RequestParam double num2) {
+        if (num2 == 0) {
+            throw new IllegalArgumentException("Error! You can't divide by zero");
         }
-        return a + " / " + b + " = " + calculatorService.divide(a, b);
+        return num1 + " / " + num2 + " = " + calculatorService.divide(num1, num2);
     }
 
-    @ExceptionHandler(ArithmeticException.class)
-    private String handler(ArithmeticException e) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    private String handler(IllegalArgumentException e) {
         return e.getMessage();
     }
 
