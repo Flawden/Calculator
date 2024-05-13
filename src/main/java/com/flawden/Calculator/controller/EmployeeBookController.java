@@ -1,18 +1,16 @@
 package com.flawden.Calculator.controller;
 
-import com.flawden.Calculator.exceptions.ArrayIsFull;
-import com.flawden.Calculator.exceptions.EmployeeNotFound;
-import com.flawden.Calculator.exceptions.IncorrectDepartmentNumber;
+import com.flawden.Calculator.exceptions.ArrayIsFullException;
+import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
+import com.flawden.Calculator.exceptions.IncorrectDepartmentNumberException;
+import com.flawden.Calculator.exceptions.IncorrectEmployeeException;
 import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.service.EmployeeBookService;
 import com.flawden.Calculator.util.Tester;
-import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -26,12 +24,13 @@ public class EmployeeBookController {
     }
 
     @GetMapping
-    public List<Employee> addEmployee() {
+    public List<Employee> getEmployee() {
         return employeeBookService.getEmployees();
     }
 
     @PostMapping
-    public ResponseEntity addEmployee(@RequestBody Employee employee) {
+    public ResponseEntity addEmployee(@RequestBody Employee employee) throws IncorrectEmployeeException {
+        Tester.isValidEmployee(employee);
         employeeBookService.addEmployee(employee);
         return ResponseEntity.ok().build();
     }
@@ -42,7 +41,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable int id) throws EmployeeNotFound {
+    public Employee getEmployeeById(@PathVariable int id) throws EmployeeNotFoundException {
         return employeeBookService.getEmployeeById(id);
     }
 
@@ -52,12 +51,12 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/sum/{department}")
-    public String salarySum(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public String salarySum(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.salarySum(department);
     }
 
     @GetMapping("/print/{department}")
-    public String employeesPrinter(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public String employeesPrinter(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.employeesPrinter(department);
     }
 
@@ -67,7 +66,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/min-salary/{department}")
-    public String minSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public String minSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.minSalary(department);
     }
 
@@ -77,7 +76,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("max-salary/{department}")
-    public String maxSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public String maxSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.maxSalary(department);
     }
 
@@ -87,7 +86,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/average-salary/{department}")
-    public String averageSalary(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public String averageSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.averageSalary(department);
     }
 
@@ -98,28 +97,33 @@ public class EmployeeBookController {
     }
 
     @PostMapping("/increase-in-percent/{percent}/{department}")
-    public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent, @PathVariable int department) throws IncorrectDepartmentNumber {
+    public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent, @PathVariable int department) throws IncorrectDepartmentNumberException {
         employeeBookService.salaryIncreaseInPercent(percent, department);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/by-department/{department}")
-    public Employee[] findEmployeesByDepartment(@PathVariable int department) throws IncorrectDepartmentNumber {
+    public Employee[] findEmployeesByDepartment(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return employeeBookService.findEmployeesByDepartment(department);
     }
 
-    @ExceptionHandler(IncorrectDepartmentNumber.class)
-    private String handler(IncorrectDepartmentNumber e) {
+    @ExceptionHandler(IncorrectDepartmentNumberException.class)
+    private String handler(IncorrectDepartmentNumberException e) {
         return e.getMessage();
     }
 
-    @ExceptionHandler(EmployeeNotFound.class)
-    private String anotherHandler(EmployeeNotFound e) {
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    private String anotherHandler(EmployeeNotFoundException e) {
         return e.getMessage();
     }
 
-    @ExceptionHandler(ArrayIsFull.class)
-    private String oneMoreHandler(ArrayIsFull e) {
+    @ExceptionHandler(ArrayIsFullException.class)
+    private String oneMoreHandler(ArrayIsFullException e) {
         return e.getMessage();
+    }
+
+    @ExceptionHandler(IncorrectEmployeeException.class)
+    private ResponseEntity oneMoreHandler(IncorrectEmployeeException e) {
+        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
