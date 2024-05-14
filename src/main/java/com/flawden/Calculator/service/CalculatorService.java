@@ -18,6 +18,9 @@ public class CalculatorService {
     }
 
     public Double divide(double num1, double num2) {
+        if (num2 == 0) {
+            throw new IllegalArgumentException("Error! You can't divide by zero");
+        }
         return num1 / num2;
     }
 
