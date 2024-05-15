@@ -3,9 +3,7 @@ package com.flawden.Calculator.controller;
 import com.flawden.Calculator.service.CalculatorService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 public class CalculatorServiceTest {
 
     private CalculatorService calculatorService = new CalculatorService();
