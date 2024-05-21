@@ -35,9 +35,10 @@ public class EmployeeBookController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public void deleteEmployee(int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteEmployee(@PathVariable int id) {
         employeeBookService.deleteEmployee(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}")

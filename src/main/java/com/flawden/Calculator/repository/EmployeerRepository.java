@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class EmployeerRepository {
 
-    public EmployeerRepository(List<Employee> employees) {
+    public EmployeerRepository() {
         employees.add(new Employee("Firsname", "Patronymic", "Lastname", 1, 30000));
         employees.add(new Employee("Oleg", "Valerievich", "Sazanov", 2, 45000));
         employees.add(new Employee("Mavic", "Gavic", "Qavic", 1, 35000));
@@ -18,7 +18,6 @@ public class EmployeerRepository {
         employees.add(new Employee("Something", "Else", "Sazanov", 2, 45000));
         employees.add(new Employee("Mavic", "Gavic", "Qavic", 1, 35000));
         employees.add(new Employee("Lad", "Pad", "Bad", 3, 15000));
-        this.employees = employees;
     }
 
     private List<Employee> employees = new ArrayList<>();
