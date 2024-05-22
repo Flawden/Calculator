@@ -2,7 +2,7 @@ package com.flawden.Calculator.service;
 
 import com.flawden.Calculator.exceptions.IncorrectDepartmentNumberException;
 import com.flawden.Calculator.model.Employee;
-import com.flawden.Calculator.repository.EmployeerRepository;
+import com.flawden.Calculator.repository.EmployeerRepositoryImpl;
 import com.flawden.Calculator.util.Tester;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.List;
 @Service
 public class DepartmentService {
 
-    private EmployeerRepository employeerRepository;
+    private EmployeerRepositoryImpl employeerRepository;
 
-    public DepartmentService(EmployeerRepository employeerRepository) {
+    public DepartmentService(EmployeerRepositoryImpl employeerRepository) {
         this.employeerRepository = employeerRepository;
     }
 
@@ -43,20 +43,9 @@ public class DepartmentService {
         if (!Tester.isValidDepartment(department)) {
             return;
         }
-        if (percent == 0) {
-            System.out.println("Зарплата сотрудников не была изменена");
-            return;
-        }
-        if (percent < 0) {
-            System.out.println("Отдел охраны труда запрещает уменьшать сотрудникам размер зароботной платы, во избежание снижения уровня эффективности сотрудников");
-            return;
-        }
         Employee[] employeesInDepartment = findEmployeesByDepartment(department);
-        System.out.println("Информация по индексации отдела номер " + department + ":");
         for (Employee employee : employeesInDepartment) {
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " до индексации.");
             employee.setSalary(employee.getSalary() / 100 * (100 + percent));
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " после индексации.");
         }
     }
 

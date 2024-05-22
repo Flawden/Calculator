@@ -48,22 +48,22 @@ public class EmployeeBookController {
 
     @GetMapping("/sum")
     public String salarySum() {
-        return employeeBookService.salarySum();
+        return "Итоговые затраты на зарплату: " + employeeBookService.salarySum() + " рублей.";
     }
 
     @GetMapping("/min-salary")
     public String minSalary() {
-        return employeeBookService.minSalary();
+        return "Минимальная зарплата: " + employeeBookService.minSalary() + " рублей.";
     }
 
     @GetMapping("/max-salary")
     public String maxSalary() {
-        return employeeBookService.maxSalary();
+        return "Максимальная зарплата: " + employeeBookService.maxSalary() + " рублей.";
     }
 
     @GetMapping("/average-salary")
     public String averageSalary() {
-        return employeeBookService.averageSalary();
+        return "Средняя зарплата сотрудников: " + employeeBookService.averageSalary() + " рублей.";
     }
 
     @PostMapping("/increase-in-percent/{percent}")

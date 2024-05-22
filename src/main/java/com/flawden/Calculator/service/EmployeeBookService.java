@@ -1,22 +1,18 @@
 package com.flawden.Calculator.service;
 
 import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
-import com.flawden.Calculator.exceptions.IncorrectDepartmentNumberException;
 import com.flawden.Calculator.model.Employee;
-import com.flawden.Calculator.repository.EmployeerRepository;
-import com.flawden.Calculator.util.Tester;
+import com.flawden.Calculator.repository.EmployeerRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class EmployeeBookService {
 
-    private EmployeerRepository employeesRepository;
+    private EmployeerRepositoryImpl employeesRepository;
 
-    public EmployeeBookService(EmployeerRepository employeesRepository) {
+    public EmployeeBookService(EmployeerRepositoryImpl employeesRepository) {
         this.employeesRepository = employeesRepository;
     }
 
@@ -39,35 +35,25 @@ public class EmployeeBookService {
         return employeesRepository.getEmployeeById(id);
     }
 
-    public String salarySum() {
-        return "Итоговые затраты на зарплату: " + employeesRepository.getEmployees().stream().mapToInt(employee -> (int) employee.getSalary()).sum() + " рублей.";
+    public long salarySum() {
+        return employeesRepository.getEmployees().stream().mapToLong(employee -> (long) employee.getSalary()).sum();
     }
 
-    public String minSalary() {
-        return "Минимальная зарплата: " + employeesRepository.getEmployees().stream().mapToInt(employee -> (int) employee.getSalary()).min().getAsInt() + " рублей.";
+    public long minSalary() {
+        return employeesRepository.getEmployees().stream().mapToLong(employee -> (long) employee.getSalary()).min().getAsLong();
     }
 
-    public String maxSalary() {
-        return "Максимальная зарплата: " + employeesRepository.getEmployees().stream().mapToInt(employee -> (int) employee.getSalary()).max().getAsInt() + " рублей.";
+    public long maxSalary() {
+        return employeesRepository.getEmployees().stream().mapToLong(employee -> (long) employee.getSalary()).max().getAsLong();
     }
 
-    public String averageSalary() {
-        return "Средняя зарплата сотрудников: " + employeesRepository.getEmployees().stream().mapToInt(employee -> (int) employee.getSalary()).average().getAsDouble() + " рублей.";
+    public double averageSalary() {
+        return employeesRepository.getEmployees().stream().mapToDouble(employee -> (double) employee.getSalary()).average().getAsDouble();
     }
 
     public void salaryIncreaseInPercent(int percent) {
-        if (percent == 0) {
-            System.out.println("Зарплата сотрудников не была изменена");
-            return;
-        }
-        if (percent < 0) {
-            System.out.println("Отдел охраны труда запрещает уменьшать сотрудникам размер зароботной платы, во избежание снижения уровня эффективности сотрудников");
-            return;
-        }
         for (Employee employee : employeesRepository.getEmployees()) {
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " до индексации.");
             employee.setSalary(employee.getSalary() / 100 * (100 + percent));
-            System.out.println("Зарплата " + employee.getFirstname() + " " + employee.getPatronymic() + " " + employee.getLastname() + " равна " + employee.getSalary() + " после индексации.");
         }
     }
 }
