@@ -20,6 +20,10 @@ public class EmployeerRepository {
         employees.add(new Employee("Lad", "Pad", "Bad", 3, 15000));
     }
 
+    public EmployeerRepository(List<Employee> employees) {
+        this.employees = employees;
+    }
+
     private List<Employee> employees = new ArrayList<>();
 
     public List<Employee> getEmployees() {

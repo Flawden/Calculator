@@ -1,32 +1,22 @@
 package com.flawden.Calculator.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
-import com.flawden.Calculator.exceptions.IncorrectEmployeeException;
 import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.repository.EmployeerRepository;
 import com.flawden.Calculator.service.EmployeeBookService;
-import com.flawden.Calculator.util.Tester;
-import org.apache.coyote.Request;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.web.bind.annotation.*;
-
-import javax.print.attribute.standard.Media;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -39,7 +29,7 @@ public class EmployeerIntegrationsTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    private void setUp() {
+    public void setUp() {
         objectMapper = new ObjectMapper();
     }
 
@@ -65,29 +55,39 @@ public class EmployeerIntegrationsTest {
                 .andExpect(status().isOk());
     }
 
-//    public Employee getEmployeeById(@PathVariable int id) throws EmployeeNotFoundException {
-//        return employeeBookService.getEmployeeById(id);
-//    }
-//
-//    public String salarySum() {
-//        return employeeBookService.salarySum();
-//    }
-//
-//    public String minSalary() {
-//        return employeeBookService.minSalary();
-//    }
-//
-//    public String maxSalary() {
-//        return employeeBookService.maxSalary();
-//    }
-//
-//    public String averageSalary() {
-//        return employeeBookService.averageSalary();
-//    }
-//
-//    public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent) {
-//        employeeBookService.salaryIncreaseInPercent(percent);
-//        return ResponseEntity.ok().build();
-//    }
+    @Test
+    public void getEmployeeById() throws Exception {
+        mockMvc.perform(get("/api/v1/employee/{id}", 1))
+                .andExpect(content().string(containsString("\"Oleg\",\"patronymic\":\"Valerievich\",\"lastname\":\"Sazanov\"")));
+    }
 
+    @Test
+    public void salarySum() throws Exception {
+        mockMvc.perform(get("/api/v1/employee/sum"))
+                .andExpect(content().string("Итоговые затраты на зарплату: 250000 рублей."));
+    }
+
+    @Test
+    public void minSalary() throws Exception {
+        mockMvc.perform(get("/api/v1/employee/min-salary"))
+                .andExpect(content().string("Минимальная зарплата: 15000 рублей."));
+    }
+
+    @Test
+    public void maxSalary() throws Exception {
+        mockMvc.perform(get("/api/v1/employee/max-salary"))
+                .andExpect(content().string("Максимальная зарплата: 45000 рублей."));
+    }
+
+    @Test
+    public void averageSalary() throws Exception {
+        mockMvc.perform(get("/api/v1/employee/average-salary"))
+                .andExpect(content().string("Средняя зарплата сотрудников: 31250.0 рублей."));
+    }
+
+    @Test
+    public void salaryIncreaseInPercent() throws Exception {
+        mockMvc.perform(post("/api/v1/employee/increase-in-percent/{percent}", 20))
+                .andExpect(status().isOk());
+    }
 }
