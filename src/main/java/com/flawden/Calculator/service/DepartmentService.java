@@ -19,24 +19,24 @@ public class DepartmentService {
         this.employeerRepository = employeerRepository;
     }
 
-    public String salarySum(int department) throws IncorrectDepartmentNumberException {
+    public long salarySum(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
-        return "Итоговые затраты на зарплату в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).sum() + " рублей.";
+        return Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToLong(employee -> (long) employee.getSalary()).sum();
     }
 
-    public String minSalary(int department) throws IncorrectDepartmentNumberException {
+    public long minSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
-        return "Минимальная зарплата в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).min().getAsInt() + " рублей.";
+        return Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToLong(employee -> (long) employee.getSalary()).min().getAsLong();
     }
 
-    public String maxSalary(int department) throws IncorrectDepartmentNumberException {
+    public long maxSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
-        return "Максимальная зарплата в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).max().getAsInt() + " рублей.";
+        return Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToLong(employee -> (long) employee.getSalary()).max().getAsLong();
     }
 
-    public String averageSalary(int department) throws IncorrectDepartmentNumberException {
+    public double averageSalary(int department) throws IncorrectDepartmentNumberException {
         Tester.isValidDepartment(department);
-        return "Средняя зарплата сотрудников в отделе номер " + department + ": " + Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).average().getAsDouble() + " рублей.";
+        return Arrays.stream(findEmployeesByDepartment(department)).toList().stream().mapToInt(employee -> (int) employee.getSalary()).average().getAsDouble();
     }
 
     public void salaryIncreaseInPercent(int percent, int department) throws IncorrectDepartmentNumberException {

@@ -8,8 +8,9 @@ import com.flawden.Calculator.model.Employee;
 import com.flawden.Calculator.service.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/department")
@@ -21,38 +22,38 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/print/{department}/employees")
+    @GetMapping("{department}/employees/print")
     public String employeesPrinter(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return departmentService.employeesPrinter(department);
     }
 
-    @GetMapping("/sum/{department}/salary/sum")
+    @GetMapping("/{department}/salary/sum")
     public String salarySum(@PathVariable int department) throws IncorrectDepartmentNumberException {
-        return departmentService.salarySum(department);
+        return "Итоговые затраты на зарплату в отделе номер " + department + ": " + departmentService.salarySum(department) + " рублей.";
     }
 
-    @GetMapping("/min-salary/{department}/salary/min")
+    @GetMapping("/{department}/salary//min")
     public String minSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
-        return departmentService.minSalary(department);
+        return "Минимальная зарплата в отделе номер " + department + ": " + departmentService.minSalary(department) + " рублей.";
     }
 
-    @GetMapping("max-salary/{department}/salary/max")
+    @GetMapping("/{department}/salary/max")
     public String maxSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
-        return departmentService.maxSalary(department);
+        return "Максимальная зарплата в отделе номер " + department + ": " + departmentService.maxSalary(department) + " рублей.";
     }
 
-    @GetMapping("/average-salary/{department}/salary/average")
+    @GetMapping("/{department}/salary/average")
     public String averageSalary(@PathVariable int department) throws IncorrectDepartmentNumberException {
-        return departmentService.averageSalary(department);
+        return "Средняя зарплата сотрудников в отделе номер " + department + ": " + departmentService.averageSalary(department) + " рублей.";
     }
 
-    @PostMapping("/increase-in-percent/{percent}/{department}/salary")
+    @PostMapping("/{department}/salary/{percent}/increase-in-percent")
     public ResponseEntity salaryIncreaseInPercent(@PathVariable int percent, @PathVariable int department) throws IncorrectDepartmentNumberException {
         departmentService.salaryIncreaseInPercent(percent, department);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/by-department/{department}")
+    @GetMapping("/{department}/employees")
     public Employee[] findEmployeesByDepartment(@PathVariable int department) throws IncorrectDepartmentNumberException {
         return departmentService.findEmployeesByDepartment(department);
     }
