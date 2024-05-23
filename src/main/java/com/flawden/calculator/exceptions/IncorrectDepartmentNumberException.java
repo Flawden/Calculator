@@ -1,6 +1,6 @@
-package com.flawden.Calculator.exceptions;
+package com.flawden.calculator.exceptions;
 
-public class IncorrectDepartmentNumberException extends Exception {
+public class IncorrectDepartmentNumberException extends RuntimeException {
 
     public IncorrectDepartmentNumberException() {
     }

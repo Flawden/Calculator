@@ -1,6 +1,6 @@
-package com.flawden.Calculator.exceptions;
+package com.flawden.calculator.exceptions;
 
-public class EmployeeNotFoundException extends Exception {
+public class EmployeeNotFoundException extends RuntimeException {
 
     public EmployeeNotFoundException() {
     }

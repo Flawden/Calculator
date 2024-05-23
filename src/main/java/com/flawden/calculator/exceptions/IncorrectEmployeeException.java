@@ -1,6 +1,6 @@
-package com.flawden.Calculator.exceptions;
+package com.flawden.calculator.exceptions;
 
-public class IncorrectEmployeeException extends Exception {
+public class IncorrectEmployeeException extends RuntimeException {
 
     public IncorrectEmployeeException() {
     }

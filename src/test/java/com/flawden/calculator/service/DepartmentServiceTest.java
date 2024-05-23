@@ -1,8 +1,8 @@
-package com.flawden.Calculator.service;
+package com.flawden.calculator.service;
 
-import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
-import com.flawden.Calculator.model.Employee;
-import com.flawden.Calculator.repository.EmployeerRepositoryImpl;
+import com.flawden.calculator.exceptions.IncorrectDepartmentNumberException;
+import com.flawden.calculator.model.Employee;
+import com.flawden.calculator.repository.EmployeeRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,25 +10,24 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class EmployerServiceTest {
+public class DepartmentServiceTest {
 
     @Mock
-    private EmployeerRepositoryImpl employeerRepositoryMock;
+    private EmployeeRepositoryImpl employeerRepositoryMock;
 
-    private EmployeeBookService employeerService;
+    private DepartmentService departmentService;
 
     private List<Employee> employees = new ArrayList<>();
 
     @BeforeEach
     public void setUp() {
-        employeerService = new EmployeeBookService(employeerRepositoryMock);
+        departmentService = new DepartmentService(employeerRepositoryMock);
     }
 
     @BeforeEach
@@ -44,34 +43,27 @@ public class EmployerServiceTest {
     }
 
     @Test
-    public void getEmployeeById() throws EmployeeNotFoundException {
+    public void salarySum() throws IncorrectDepartmentNumberException {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
-        when(employeerService.getEmployeeById(1)).thenReturn(employees.get(1));
-        Assertions.assertEquals(employees.get(1), employeerService.getEmployeeById(1));
+        Assertions.assertEquals(130000, departmentService.salarySum(1));
     }
 
     @Test
-    public void salarySum() {
+    public void minSalary() throws IncorrectDepartmentNumberException {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
-        Assertions.assertEquals(250000, employeerService.salarySum());
+        Assertions.assertEquals(30000, departmentService.minSalary(1));
     }
 
     @Test
-    public void minSalary() {
+    public void maxSalary() throws IncorrectDepartmentNumberException {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
-        Assertions.assertEquals(15000, employeerService.minSalary());
+        Assertions.assertEquals(35000, departmentService.maxSalary(1));
     }
 
     @Test
-    public void maxSalary() {
+    public void averageSalary() throws IncorrectDepartmentNumberException {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
-        Assertions.assertEquals(45000, employeerService.maxSalary());
-    }
-
-    @Test
-    public void averageSalary() {
-        when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
-        Assertions.assertEquals(31250.0, employeerService.averageSalary());
+        Assertions.assertEquals(32500.0, departmentService.averageSalary(1));
     }
 
 }

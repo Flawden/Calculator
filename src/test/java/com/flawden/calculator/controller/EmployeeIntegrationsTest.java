@@ -1,7 +1,7 @@
-package com.flawden.Calculator.controller;
+package com.flawden.calculator.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flawden.Calculator.model.Employee;
+import com.flawden.calculator.model.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class EmployeerIntegrationsTest {
+public class EmployeeIntegrationsTest {
 
     @Autowired
     private MockMvc mockMvc;

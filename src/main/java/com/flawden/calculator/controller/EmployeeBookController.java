@@ -1,13 +1,8 @@
-package com.flawden.Calculator.controller;
+package com.flawden.calculator.controller;
 
-import com.flawden.Calculator.exceptions.ArrayIsFullException;
-import com.flawden.Calculator.exceptions.EmployeeNotFoundException;
-import com.flawden.Calculator.exceptions.IncorrectDepartmentNumberException;
-import com.flawden.Calculator.exceptions.IncorrectEmployeeException;
-import com.flawden.Calculator.model.Employee;
-import com.flawden.Calculator.service.EmployeeBookService;
-import com.flawden.Calculator.util.Tester;
-import org.springframework.http.HttpStatus;
+import com.flawden.calculator.model.Employee;
+import com.flawden.calculator.service.EmployeeBookService;
+import com.flawden.calculator.util.Validator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +24,8 @@ public class EmployeeBookController {
     }
 
     @PostMapping
-    public ResponseEntity addEmployee(@RequestBody Employee employee) throws IncorrectEmployeeException {
-        Tester.isValidEmployee(employee);
+    public ResponseEntity addEmployee(@RequestBody Employee employee) {
+        Validator.isValidEmployee(employee);
         employeeBookService.addEmployee(employee);
         return ResponseEntity.ok().build();
     }
@@ -42,7 +37,7 @@ public class EmployeeBookController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable int id) throws EmployeeNotFoundException {
+    public Employee getEmployeeById(@PathVariable int id) {
         return employeeBookService.getEmployeeById(id);
     }
 
@@ -72,23 +67,4 @@ public class EmployeeBookController {
         return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(IncorrectDepartmentNumberException.class)
-    private String handler(IncorrectDepartmentNumberException e) {
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    private String anotherHandler(EmployeeNotFoundException e) {
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(ArrayIsFullException.class)
-    private String oneMoreHandler(ArrayIsFullException e) {
-        return e.getMessage();
-    }
-
-    @ExceptionHandler(IncorrectEmployeeException.class)
-    private ResponseEntity oneMoreHandler(IncorrectEmployeeException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 }

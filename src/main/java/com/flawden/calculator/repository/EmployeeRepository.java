@@ -1,10 +1,10 @@
-package com.flawden.Calculator.repository;
+package com.flawden.calculator.repository;
 
-import com.flawden.Calculator.model.Employee;
+import com.flawden.calculator.model.Employee;
 
 import java.util.List;
 
-public interface EmployeerRepository {
+public interface EmployeeRepository {
 
     List<Employee> getEmployees();
 

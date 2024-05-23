@@ -1,4 +1,4 @@
-package com.flawden.Calculator.model;
+package com.flawden.calculator.model;
 
 import java.util.Objects;
 
@@ -11,6 +11,16 @@ public class Employee {
     private String lastname;
     private int department;
     private double salary;
+
+    public Employee(String firstname, String patronymic, String lastname, int department, double salary) {
+        this.id = employeeCounter;
+        employeeCounter++;
+        this.firstname = firstname;
+        this.patronymic = patronymic;
+        this.lastname = lastname;
+        this.department = department;
+        this.salary = salary;
+    }
 
     public static int getEmployeeCounter() {
         return employeeCounter;
@@ -41,16 +51,6 @@ public class Employee {
     }
 
     public void setSalary(double salary) {
-        this.salary = salary;
-    }
-
-    public Employee(String firstname, String patronymic, String lastname, int department, double salary) {
-        this.id = employeeCounter;
-        employeeCounter++;
-        this.firstname = firstname;
-        this.patronymic = patronymic;
-        this.lastname = lastname;
-        this.department = department;
         this.salary = salary;
     }
 

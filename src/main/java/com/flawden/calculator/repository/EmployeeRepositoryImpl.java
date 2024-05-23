@@ -1,15 +1,15 @@
-package com.flawden.Calculator.repository;
+package com.flawden.calculator.repository;
 
-import com.flawden.Calculator.model.Employee;
+import com.flawden.calculator.model.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class EmployeerRepositoryImpl implements EmployeerRepository {
+public class EmployeeRepositoryImpl implements EmployeeRepository {
 
-    public EmployeerRepositoryImpl() {
+    public EmployeeRepositoryImpl() {
         employees.add(new Employee("Firsname", "Patronymic", "Lastname", 1, 30000));
         employees.add(new Employee("Oleg", "Valerievich", "Sazanov", 2, 45000));
         employees.add(new Employee("Mavic", "Gavic", "Qavic", 1, 35000));
