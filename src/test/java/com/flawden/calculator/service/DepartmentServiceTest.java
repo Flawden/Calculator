@@ -43,27 +43,59 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void salarySum() throws IncorrectDepartmentNumberException {
+    public void salarySum() {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
         Assertions.assertEquals(130000, departmentService.salarySum(1));
     }
 
     @Test
-    public void minSalary() throws IncorrectDepartmentNumberException {
+    public void salarySumWithExceptions() {
+        IncorrectDepartmentNumberException exceptionDepartmentIsNegative = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.salarySum(-1));
+        IncorrectDepartmentNumberException exceptionDepartmentIsIncorrect = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.salarySum(6));
+        Assertions.assertEquals("Ошибка! Номер департамента не может быть отрицательным", exceptionDepartmentIsNegative.getMessage());
+        Assertions.assertEquals("Ошибка! Номера департаментов начинаются с 1 и заканчиваются 5", exceptionDepartmentIsIncorrect.getMessage());
+    }
+
+    @Test
+    public void minSalary() {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
         Assertions.assertEquals(30000, departmentService.minSalary(1));
     }
 
     @Test
-    public void maxSalary() throws IncorrectDepartmentNumberException {
+    public void minSalaryWithExceptions() {
+        IncorrectDepartmentNumberException exceptionDepartmentIsNegative = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.minSalary(-1));
+        IncorrectDepartmentNumberException exceptionDepartmentIsIncorrect = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.minSalary(6));
+        Assertions.assertEquals("Ошибка! Номер департамента не может быть отрицательным", exceptionDepartmentIsNegative.getMessage());
+        Assertions.assertEquals("Ошибка! Номера департаментов начинаются с 1 и заканчиваются 5", exceptionDepartmentIsIncorrect.getMessage());
+    }
+
+    @Test
+    public void maxSalary() {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
         Assertions.assertEquals(35000, departmentService.maxSalary(1));
     }
 
     @Test
-    public void averageSalary() throws IncorrectDepartmentNumberException {
+    public void maxSalaryWithExceptions() {
+        IncorrectDepartmentNumberException exceptionDepartmentIsNegative = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.maxSalary(-1));
+        IncorrectDepartmentNumberException exceptionDepartmentIsIncorrect = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.maxSalary(6));
+        Assertions.assertEquals("Ошибка! Номер департамента не может быть отрицательным", exceptionDepartmentIsNegative.getMessage());
+        Assertions.assertEquals("Ошибка! Номера департаментов начинаются с 1 и заканчиваются 5", exceptionDepartmentIsIncorrect.getMessage());
+    }
+
+    @Test
+    public void averageSalary() {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
         Assertions.assertEquals(32500.0, departmentService.averageSalary(1));
+    }
+
+    @Test
+    public void averageSalaryWithExceptions() {
+        IncorrectDepartmentNumberException exceptionDepartmentIsNegative = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.averageSalary(-1));
+        IncorrectDepartmentNumberException exceptionDepartmentIsIncorrect = Assertions.assertThrows(IncorrectDepartmentNumberException.class, () -> departmentService.averageSalary(6));
+        Assertions.assertEquals("Ошибка! Номер департамента не может быть отрицательным", exceptionDepartmentIsNegative.getMessage());
+        Assertions.assertEquals("Ошибка! Номера департаментов начинаются с 1 и заканчиваются 5", exceptionDepartmentIsIncorrect.getMessage());
     }
 
 }

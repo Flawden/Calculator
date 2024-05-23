@@ -1,6 +1,7 @@
 package com.flawden.calculator.service;
 
 import com.flawden.calculator.exceptions.EmployeeNotFoundException;
+import com.flawden.calculator.exceptions.IncorrectDepartmentNumberException;
 import com.flawden.calculator.model.Employee;
 import com.flawden.calculator.repository.EmployeeRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
@@ -44,10 +45,17 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeById() throws EmployeeNotFoundException {
+    public void getEmployeeById() {
         when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
         when(employeerService.getEmployeeById(1)).thenReturn(employees.get(1));
         Assertions.assertEquals(employees.get(1), employeerService.getEmployeeById(1));
+    }
+
+    @Test
+    public void getEmployeeByIdWithException() {
+        when(employeerRepositoryMock.getEmployees()).thenReturn(employees);
+        EmployeeNotFoundException exception = Assertions.assertThrows(EmployeeNotFoundException.class, () -> employeerService.getEmployeeById(999));
+        Assertions.assertEquals("Ошибка! Сотрудник с указанным id не существует.", exception.getMessage());
     }
 
     @Test
